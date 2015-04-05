@@ -8,7 +8,7 @@ import javax.swing.border.*;//allows you to create a border inside a border
 import java.util.*;
 
 
-public class AS4Temp extends JApplet implements ItemListener, ActionListener{
+public class ChannelSubcribe extends JApplet implements ItemListener, ActionListener{
 	JPanel p,p1,p2,p3,p4,p5,p6,p7,p8,p8a,p9,p9a,p9b,p9c,p9d,p9e,p9f,p9g;
 
 	JComboBox c;
