@@ -14,7 +14,7 @@ public class UpdateFrame implements ItemListener, ActionListener
    
 UpdateFrame(){
 
-      JPanel p,p1,p1a,p1b,p1c,p1d,p2,p2a,p2b,p3,p4;
+      JPanel p,p1,p1a,p1b,p1c,p1d,p2,p3,p4;
       JComboBox c;
       JLabel lblHD,lblStream;
    	JRadioButton entertainment,movie,news,sci,sports;
@@ -93,8 +93,6 @@ UpdateFrame(){
        
       //Genre current/change
 		p2 = new JPanel();
-		p2a = new JPanel();
-		p2b = new JPanel();
       
 		entertainment = new JRadioButton("Entertainment",true);
 		entertainment.addActionListener(this);
@@ -114,16 +112,15 @@ UpdateFrame(){
 		radGrp.add(sci);
 		radGrp.add(sports);
       
-      p2a.add(entertainment);
-      p2a.add(movie);
-      p2a.add(news);
-      p2b.add(sci);
-      p2b.add(sports);
+      p2.add(entertainment);
+      p2.add(movie);
+      p2.add(news);
+      p2.add(sci);
+      p2.add(sports);
       
       p2.setBorder(new TitledBorder("Genre Current/Change"));    
       p2.setLayout(new GridLayout(2,3,10,3));
-      p2.add(p2a);
-      p2.add(p2b);
+      p2.add(p2);
 
       //Update button
 		p3 = new JPanel();
