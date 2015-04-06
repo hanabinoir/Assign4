@@ -1,20 +1,27 @@
 import javax.swing.*;// by default allows you to everything from .swing
+
 import java.awt.*;
 import java.text.*;
-import java.util.Vector;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.border.*;//allows you to create a border inside a border
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.util.*;
 
 
-public class ChannelSubcribe extends JApplet implements ItemListener, ActionListener{
+public class ChannelSubcribe extends JApplet 
+implements ItemListener, ActionListener, ListSelectionListener{
 	JPanel p,p1,p2,p3,p4,p5,p6,p7,p8,p8a,p9,p9a,p9b,p9c,p9d,p9e,p9f,p9g;
 
 	JComboBox c;
-	JList lchannels;
-	JScrollPane jp;
-	Vector vt;
+	JList lchannels,lselections;
+	JScrollPane jp1,jp2;
+	Vector vt1,vt2;
+	String chTitle,priceHD,priceStream,price,result;
+	Image Logo;
+	ImageIcon chLogo;
 	JRadioButton radHD,radStream;
 	ButtonGroup radGrp;
 	JLabel lblHD,lblStream,lblLogo;
@@ -25,6 +32,7 @@ public class ChannelSubcribe extends JApplet implements ItemListener, ActionList
 	
 	public void init(){
 		p = new JPanel();
+		chTitle = new String();
 		p.setLayout(new GridLayout(3,3,10,10));
 		
 		//Genre
@@ -48,21 +56,14 @@ public class ChannelSubcribe extends JApplet implements ItemListener, ActionList
 		//Channels
 		
 	    p2 = new JPanel();
-	    vt = new Vector();
-	    ChannelList cl = new ChannelList();
+	    vt1 = new Vector();
 	    
-	    lchannels = new JList(vt);   
+	    lchannels = new JList(vt1);   
 	    lchannels.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	    jp = new JScrollPane(lchannels);
-	    cl.createList();
-	    /*
-		for(int i =0; i < cl.chList.length; i++){
-			char chGenre = cl.chList[i].getChGenre();
-			if(chGenre == 'e')
-			vt.add(cl.chList[i].getChTitle());
-		}
-		*/
-		p2.add(jp);
+	    jp1 = new JScrollPane(lchannels);
+
+	    lchannels.addListSelectionListener(this);
+		p2.add(jp1);
 		p2.setBorder(new TitledBorder("Channel Titles Available"));  
 		p2.setLayout(new GridLayout(1,1,10,10));
 		//price
@@ -73,11 +74,11 @@ public class ChannelSubcribe extends JApplet implements ItemListener, ActionList
 		radStream = new JRadioButton("Internet Streaming",true);
 		radStream.addActionListener(this);
 		
-		lblHD = new JLabel("HD Price");
+		lblHD = new JLabel(priceHD);
 		lblHD.setBackground(Color.cyan);
 		lblHD.setOpaque(true);
 		
-		lblStream = new JLabel("Stream Price");
+		lblStream = new JLabel(priceStream);
 		lblStream.setBackground(Color.yellow);
 		lblStream.setOpaque(true);
 		
@@ -105,7 +106,7 @@ public class ChannelSubcribe extends JApplet implements ItemListener, ActionList
 		p5 = new JPanel();
 		subsrcibe = new JButton("Subscribe");
 		
-		subsrcibe.addItemListener(this);
+		subsrcibe.addActionListener(this);
 		
 		p5.add(subsrcibe);
 		p5.setLayout(new GridLayout(1,1,10,10));
@@ -116,7 +117,14 @@ public class ChannelSubcribe extends JApplet implements ItemListener, ActionList
 		
 		//selections
 		p7 = new JPanel();
+		vt2 = new Vector<>();
 		
+		lselections = new JList(vt2);   
+	    lselections.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		jp2 = new JScrollPane(lselections);
+		
+	    lselections.addListSelectionListener(this);
+		p7.add(jp2);
 		p7.setBackground(Color.white);
 	    p7.setBorder(new TitledBorder("Your Selections"));
 	    p7.setLayout(new GridLayout(1,1,10,10));
@@ -228,82 +236,131 @@ public class ChannelSubcribe extends JApplet implements ItemListener, ActionList
 		con = getContentPane();
 		con.add(p);
 	}
-
+	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
+		ChannelList cl = new ChannelList();
+	    cl.createList();
 		
+		if(e.getSource() instanceof JRadioButton){
+			if(e.getSource() == radHD){
+				price = priceHD;
+			}
+			else{
+				price = priceStream;
+			}
+		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		JComboBox c = (JComboBox)e.getSource();
 		String genre = (String)c.getSelectedItem();
-		System.out.println(genre);
 		
-	    ChannelList cl = new ChannelList();
+		ChannelList cl = new ChannelList();
 	    cl.createList();
 	    
 		switch(genre){
+		case "Please Select Genre of Channel":
+			vt1.clear();
+			vt1.add("");
+			lchannels.setListData(vt1);
+			break;
 		case "All Genres":
-			vt.clear();
+			vt1.clear();
 			for(int i =0; i < cl.chList.length; i++){
 				char chGenre = cl.chList[i].getChGenre();
-				vt.add(cl.chList[i].getChTitle());
-				lchannels.setListData(vt);
+				vt1.add(cl.chList[i].getChTitle());
+				lchannels.setListData(vt1);
 			}
 			break;
 		case "Entertainment":
-			vt.clear();
+			vt1.clear();
 			for(int i =0; i < cl.chList.length; i++){
 				char chGenre = cl.chList[i].getChGenre();
 				if(chGenre == 'e'){
-					vt.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt);
+					vt1.add(cl.chList[i].getChTitle());
+					lchannels.setListData(vt1);
 				}
 			}
 			break;
 		case "Movie":
-			vt.clear();
+			vt1.clear();
 			for(int i =0; i < cl.chList.length; i++){
 				char chGenre = cl.chList[i].getChGenre();
 				if(chGenre == 'm'){
-					vt.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt);
+					vt1.add(cl.chList[i].getChTitle());
+					lchannels.setListData(vt1);
 				}
 			}
 			break;
 		case "News/Business":
-			vt.clear();
+			vt1.clear();
 			for(int i =0; i < cl.chList.length; i++){
 				char chGenre = cl.chList[i].getChGenre();
 				if(chGenre == 'n'){
-					vt.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt);
+					vt1.add(cl.chList[i].getChTitle());
+					lchannels.setListData(vt1);
 				}
 			}
 			break;
 		case "Sci-Fi":
-			vt.clear();
+			vt1.clear();
 			for(int i =0; i < cl.chList.length; i++){
 				char chGenre = cl.chList[i].getChGenre();
 				if(chGenre == 's'){
-					vt.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt);
+					vt1.add(cl.chList[i].getChTitle());
+					lchannels.setListData(vt1);
 				}
 			}
 			break;
 		case "Sports":
-			vt.clear();
+			vt1.clear();
 			for(int i =0; i < cl.chList.length; i++){
 				char chGenre = cl.chList[i].getChGenre();
 				if(chGenre == 't'){
-					vt.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt);
+					vt1.add(cl.chList[i].getChTitle());
+					lchannels.setListData(vt1);
 				}
 			}
 			break;
 		}
+		
+		if(e.getSource() instanceof JButton){
+			if(e.getSource() == subsrcibe){
+				result = chTitle + "-" + price;
+				if(vt2.contains(result)){
+					JOptionPane.showMessageDialog(this, 
+							"This Channel is Already selected for that Format - Please select Another", 
+							"Not Allowed", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					vt2.add(result);
+					lselections.setListData(vt2);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		ChannelList cl = new ChannelList();
+	    cl.createList();
+	    chTitle = String.valueOf(lchannels.getSelectedValue());
+		for(int i =0; i < cl.chList.length; i++){
+			if(cl.chList[i].getChTitle() == chTitle){
+				priceHD = "$" + String.valueOf(cl.chList[i].getChBroadcastPrice());
+				lblHD.setText(priceHD);
+				priceStream = "$" + String.valueOf(cl.chList[i].getChStreamPrice());
+				lblStream.setText(priceStream);
+				Logo = getImage(getCodeBase(),cl.chList[i].getChLogo());
+				chLogo = new ImageIcon(Logo);
+				lblLogo.setIcon(chLogo);
+			}
+		}
+		
 	}
 }
