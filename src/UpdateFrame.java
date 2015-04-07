@@ -2,7 +2,6 @@ import javax.swing.*;// by default allows you to everything from .swing
 //import javax.swing.event.*;
 import java.awt.*;
 import java.text.*;
-import java.util.Vector;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.border.*;//allows you to create a border inside a border
@@ -19,7 +18,8 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
       JButton update;
    	JList channelL;
 	   JScrollPane jp; 
-	   Vector vt;        
+	   Vector vt;
+	   String priceHD,priceStream,chTitle,chGenre;
 
 
       
@@ -57,28 +57,14 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
 		p1c = new JPanel();
 		p1d = new JPanel();
       
+		ChannelList cl = new ChannelList();
+		cl.createList();
             
 		 c = new JComboBox();
-		 c.addItem("BBC Canada");
-	    c.addItem("Bloomberg TV");
-	    c.addItem("CNN");
-	    c.addItem("Disney XD");
-	    c.addItem("Encore Avenue");
-	    c.addItem("HBO Canada");
-	    c.addItem("MovieTime");
-	    c.addItem("MSNBC");
-	    c.addItem("Rewind");
-	    c.addItem("Silver Screen Classics");
-	    c.addItem("Space");
-	    c.addItem("Sportsnet World");
-	    c.addItem("Super Channel");
-	    c.addItem("SyFy");
-	    c.addItem("Teletoon");
-	    c.addItem("The Golf Channel");
-	    c.addItem("The Movie Network");
-	    c.addItem("The Sports Network");
-	    c.addItem("Turner Classic Movies");
-
+		 for(int i =0; i < cl.chList.length; i++){
+			 c.addItem(cl.chList[i].getChTitle());
+		 }
+		 c.addActionListener(this);
 	    p1a.add(c);	    
 	    p1a.setLayout(new GridLayout(1,1,5,5));
 		 p1a.setBorder(new TitledBorder("Channel"));
@@ -151,7 +137,6 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
       p4 = new JPanel();
  
  	    vt = new Vector();
-	    ChannelList cl = new ChannelList();//from channelinfo.java
 	    
 	    channelL = new JList(vt);
        channelL.setBackground(Color.orange);   
@@ -180,10 +165,21 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
 	public void itemStateChanged(ItemEvent a) {
 
 
-}
+	}
 	public void actionPerformed(ActionEvent ae) {
-
-}
+		chTitle = (String)c.getSelectedItem();
+		ChannelList cl = new ChannelList();
+		cl.createList();
+		for(int i =0; i < cl.chList.length; i++){
+			if(cl.chList[i].getChTitle() == chTitle){
+				priceHD = "$" + String.valueOf(cl.chList[i].getChBroadcastPrice());
+				lblHD.setText(priceHD);
+				priceStream = "$" + String.valueOf(cl.chList[i].getChStreamPrice());
+				lblStream.setText(priceStream);
+				chGenre = String.valueOf(cl.chList[i].getChGenre());
+			}
+		}
+	}
 
    public static void main(String args[])
    {
