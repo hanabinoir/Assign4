@@ -178,28 +178,6 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    pwd = new JPasswordField();
 	    pwd.setEditable(true);
 	    
-	    f = new JButton("f");
-		g = new JButton("g");
-		h = new JButton("h");
-		i = new JButton("i");
-		j = new JButton("j");
-	    k = new JButton("k");
-		l = new JButton("l");
-		m = new JButton("m");
-		n = new JButton("n");
-		o = new JButton("o");
-		
-		f.addActionListener(this);
-		g.addActionListener(this);
-		h.addActionListener(this);
-		i.addActionListener(this);
-		j.addActionListener(this);
-		k.addActionListener(this);
-		l.addActionListener(this);
-		m.addActionListener(this);
-		n.addActionListener(this);
-		o.addActionListener(this);
-	    /*
 	    String keys[] = {
 	    		"f","g","h","i","j",
 	    		"k","l","m","n","o"
@@ -214,24 +192,14 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    	
 	    }
 	    key.addActionListener(this);
-	    */
+	    
 		enter = new JButton("Enter");
 		enter.addActionListener(this);
 		reset = new JButton("Reset");
 		reset.addActionListener(this);
 		
 		p9b.setLayout(new GridLayout(1,5,10,10));
-	    p9b.add(f);
-	    p9b.add(g);
-	    p9b.add(h);
-	    p9b.add(i);
-	    p9b.add(j);    
-	    p9c.setLayout(new GridLayout(1,5,10,10));
-	    p9c.add(k);
-	    p9c.add(l);
-	    p9c.add(m);
-	    p9c.add(n);
-	    p9c.add(o);
+		p9c.setLayout(new GridLayout(1,5,10,10));
 		
 	    p9keyboard.setLayout(new GridLayout(2,5,1,3));
 	    p9keyboard.add(p9b);
@@ -423,12 +391,15 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		}
 		
 		//pwd input
-		
+		if(e.getSource() == key){
+			pwd.setText(getName());
+		}
 		//pwd options
 		if(e.getSource() == enter){
-			String correct = "mskjjln";
+			String correct = "mskjjln";//This is the password
 			if(Arrays.equals(correct.toCharArray(), pwd.getPassword())){
 				UpdateFrame jf = new UpdateFrame();
+				jf.add(jf.p);
 				jf.setVisible(true);
 			}
 			else{
