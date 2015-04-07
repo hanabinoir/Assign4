@@ -26,7 +26,8 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	ButtonGroup radGrp;
 	JLabel lblHD,lblStream,lblLogo;
 	JButton subsrcibe,clr,clrAll,submit,f,g,h,i,j,k,l,m,n,o,enter,reset;
-
+	JPasswordField jpwName;
+	
 	JTextField total;
 	Container con;
 	
@@ -117,7 +118,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		
 		//selections
 		p7 = new JPanel();
-		vt2 = new Vector<>();
+		vt2 = new Vector();
 		
 		lselections = new JList(vt2);   
 	    lselections.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -134,17 +135,18 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    p8 = new JPanel();
 	    
 	    clr = new JButton("Clear");
-	    clr.addItemListener(this);    
+	    clr.addActionListener(this);    
 	    clrAll = new JButton("Clear All");
-	    clrAll.addItemListener(this);    
+	    clrAll.addActionListener(this);    
 	    submit = new JButton("Submit");
-	    submit.addItemListener(this); 
+	    submit.addActionListener(this); 
 	    total = new JTextField("Total: ",20); //"Total: " + your selection Jlist,20
 	    Color color = Color.CYAN;
 	    total.setBackground(color);
 	    total.addActionListener(this);
+	    total.setEditable(false);
 	    JLabel jlbPassword = new JLabel("Enter Credit Card#: ");
-		JPasswordField jpwName = new JPasswordField(15);
+		jpwName = new JPasswordField(15);
 
 	    p8.setLayout(new GridLayout(5,1,10,10));
 	    p8a.setLayout(new FlowLayout(FlowLayout.CENTER,10,1));
@@ -264,7 +266,6 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		switch(genre){
 		case "Please Select Genre of Channel":
 			vt1.clear();
-			vt1.add("");
 			lchannels.setListData(vt1);
 			break;
 		case "All Genres":
@@ -327,19 +328,35 @@ implements ItemListener, ActionListener, ListSelectionListener{
 			break;
 		}
 		
-		if(e.getSource() instanceof JButton){
-			if(e.getSource() == subsrcibe){
-				result = chTitle + "-" + price;
-				if(vt2.contains(result)){
-					JOptionPane.showMessageDialog(this, 
-							"This Channel is Already selected for that Format - Please select Another", 
-							"Not Allowed", 
-							JOptionPane.ERROR_MESSAGE);
-				}
-				else{
-					vt2.add(result);
-					lselections.setListData(vt2);
-				}
+		if(e.getSource() == subsrcibe){
+			chTitle = String.valueOf(lchannels.getSelectedValue());
+			result = chTitle + "-" + price;
+			if(vt2.contains(result)){
+				JOptionPane.showMessageDialog(this, 
+						"This Channel is Already selected for that Format - Please select Another", 
+						"Not Allowed", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else{
+				vt2.add(result);
+				lselections.setListData(vt2);
+			}
+		}
+		
+		if(e.getSource() == clr){
+			vt2.remove(lselections.getSelectedIndex());
+			lselections.setListData(vt2);
+		}
+		
+		if(e.getSource() == clrAll){
+			vt2.clear();
+			lselections.setListData(vt2);
+		}
+		
+		if(e.getSource() == submit){
+			String pwd = new String(jpwName.getPassword());
+			if(pwd == null){
+				JOptionPane.showConfirmDialog(this, "Are You SURE","WARNING",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}
