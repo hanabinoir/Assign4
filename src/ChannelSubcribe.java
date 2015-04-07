@@ -1,6 +1,7 @@
 import javax.swing.*;// by default allows you to everything from .swing
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.text.*;
 import java.util.*;
 import java.awt.event.*;
@@ -29,7 +30,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	JButton subsrcibe,clr,clrAll,key,submit,enter,reset,
 	f,g,h,i,j,k,l,m,n,o;
 	/*f,g,h,i,j,k,l,m,n,o*/
-	JPasswordField jpwName,pwdEmp;
+	JPasswordField card,pwd;
 	
 	JTextField total;
 	Container con;
@@ -149,7 +150,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    total.addActionListener(this);
 	    total.setEditable(false);
 	    JLabel jlbPassword = new JLabel("Enter Credit Card#: ");
-		jpwName = new JPasswordField(15);
+		card = new JPasswordField(15);
 
 	    p8.setLayout(new GridLayout(5,1,10,10));
 	    p8a.setLayout(new FlowLayout(FlowLayout.CENTER,10,1));
@@ -158,7 +159,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    p8.add(clrAll);
 	    p8.add(total);
 	    p8a.add(jlbPassword);
-	    p8a.add(jpwName);
+	    p8a.add(card);
 	    p8.add(p8a);
 	    p8.add(submit);
 		
@@ -174,8 +175,8 @@ implements ItemListener, ActionListener, ListSelectionListener{
 
 	   JLabel text = new JLabel("Use Keypad to enter password for settings");
 	    
-	    pwdEmp = new JPasswordField();
-	    pwdEmp.setEditable(false);
+	    pwd = new JPasswordField();
+	    pwd.setEditable(true);
 	    
 	    f = new JButton("f");
 		g = new JButton("g");
@@ -187,6 +188,17 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		m = new JButton("m");
 		n = new JButton("n");
 		o = new JButton("o");
+		
+		f.addActionListener(this);
+		g.addActionListener(this);
+		h.addActionListener(this);
+		i.addActionListener(this);
+		j.addActionListener(this);
+		k.addActionListener(this);
+		l.addActionListener(this);
+		m.addActionListener(this);
+		n.addActionListener(this);
+		o.addActionListener(this);
 	    /*
 	    String keys[] = {
 	    		"f","g","h","i","j",
@@ -204,7 +216,9 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    key.addActionListener(this);
 	    */
 		enter = new JButton("Enter");
+		enter.addActionListener(this);
 		reset = new JButton("Reset");
+		reset.addActionListener(this);
 		
 		p9b.setLayout(new GridLayout(1,5,10,10));
 	    p9b.add(f);
@@ -238,7 +252,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    p9.setLayout(new GridLayout(4,1,10,3));
 	   
 	    p9.add(text);
-	    p9.add(pwdEmp);
+	    p9.add(pwd);
 	    p9.add(p9keyboard);
 	    p9.add(p9g);
 
@@ -395,7 +409,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 			}
 			else{
 				JOptionPane.showConfirmDialog(this, "Are You SURE","WARNING",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
-				if(jpwName.getPassword().length == 0 && opt == JOptionPane.YES_OPTION){
+				if(card.getPassword().length == 0 && opt == JOptionPane.YES_OPTION){
 					JOptionPane.showMessageDialog(this, 
 							"Please Enter a VALID Credit Card", 
 							"Not Allowed", 
@@ -406,6 +420,27 @@ implements ItemListener, ActionListener, ListSelectionListener{
 							"Thank you","Confirmation",JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
+		}
+		
+		//pwd input
+		
+		//pwd options
+		if(e.getSource() == enter){
+			String correct = "mskjjln";
+			if(Arrays.equals(correct.toCharArray(), pwd.getPassword())){
+				UpdateFrame jf = new UpdateFrame();
+				jf.setVisible(true);
+			}
+			else{
+				JOptionPane.showMessageDialog(this, 
+						"WRONG Password, please re-enter", 
+						"Not Allowed", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		if(e.getSource() == reset){
+			pwd.setText("");
 		}
 	}
 
