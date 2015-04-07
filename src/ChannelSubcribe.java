@@ -13,7 +13,8 @@ import java.util.*;
 
 public class ChannelSubcribe extends JApplet 
 implements ItemListener, ActionListener, ListSelectionListener{
-	JPanel p,p1,p2,p3,p4,p5,p6,p7,p8,p8a,p9,p9a,p9b,p9c,p9d,p9e,p9f,p9g;
+	JPanel p,p1,p2,p3,p4,p5,p6,p7,p8,p8a,
+	p9,p9a,p9b,p9c,p9keyboard,p9e,p9f,p9g;
 
 	JComboBox c;
 	JList lchannels,lselections;
@@ -25,8 +26,10 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	JRadioButton radHD,radStream;
 	ButtonGroup radGrp;
 	JLabel lblHD,lblStream,lblLogo;
-	JButton subsrcibe,clr,clrAll,submit,f,g,h,i,j,k,l,m,n,o,enter,reset;
-	JPasswordField jpwName;
+	JButton subsrcibe,clr,clrAll,key,submit,enter,reset,
+	f,g,h,i,j,k,l,m,n,o;
+	/*f,g,h,i,j,k,l,m,n,o*/
+	JPasswordField jpwName,pwdEmp;
 	
 	JTextField total;
 	Container con;
@@ -161,69 +164,84 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		
 		
 		//employee
-    p9 = new JPanel();
-    p9a = new JPanel();
-    p9b = new JPanel();
-    p9c = new JPanel();
-    p9d = new JPanel();
-    p9e = new JPanel();
-    p9f = new JPanel();
-    p9g = new JPanel();
+	    p9 = new JPanel();
+	    p9b = new JPanel();
+	    p9c = new JPanel();
+	    p9keyboard = new JPanel();
+	    p9e = new JPanel();
+	    p9f = new JPanel();
+	    p9g = new JPanel();
 
-   JLabel text = new JLabel("Use Keypad to enter password for settings");
-    
-    p9a.setLayout(new GridLayout(1,1,10,10));
-    
-   f = new JButton("f");
-	g = new JButton("g");
-	h = new JButton("h");
-	i = new JButton("i");
-	j = new JButton("j");
-   k = new JButton("k");
-	l = new JButton("l");
-	m = new JButton("m");
-	n = new JButton("n");
-	o = new JButton("o");
+	   JLabel text = new JLabel("Use Keypad to enter password for settings");
+	    
+	    pwdEmp = new JPasswordField();
+	    pwdEmp.setEditable(false);
+	    
+	    f = new JButton("f");
+		g = new JButton("g");
+		h = new JButton("h");
+		i = new JButton("i");
+		j = new JButton("j");
+	    k = new JButton("k");
+		l = new JButton("l");
+		m = new JButton("m");
+		n = new JButton("n");
+		o = new JButton("o");
+	    /*
+	    String keys[] = {
+	    		"f","g","h","i","j",
+	    		"k","l","m","n","o"
+	    };
+	    
+	    for(int i = 0; i < 10;i++){
+	    	key = new JButton(keys[i]);
+	    	if(i <= 4)
+	    		p9b.add(key);
+	    	else
+	    		p9c.add(key);
+	    	
+	    }
+	    key.addActionListener(this);
+	    */
+		enter = new JButton("Enter");
+		reset = new JButton("Reset");
+		
+		p9b.setLayout(new GridLayout(1,5,10,10));
+	    p9b.add(f);
+	    p9b.add(g);
+	    p9b.add(h);
+	    p9b.add(i);
+	    p9b.add(j);    
+	    p9c.setLayout(new GridLayout(1,5,10,10));
+	    p9c.add(k);
+	    p9c.add(l);
+	    p9c.add(m);
+	    p9c.add(n);
+	    p9c.add(o);
+		
+	    p9keyboard.setLayout(new GridLayout(2,5,1,3));
+	    p9keyboard.add(p9b);
+	    p9keyboard.add(p9c);
 
-	enter = new JButton("Enter");
-	reset = new JButton("Reset");
+	    p9e.setLayout(new GridLayout(1,1,1,0));
+	    p9e.add(enter);
 
-    p9b.setLayout(new GridLayout(1,5,10,10));
-    p9b.add(f);
-    p9b.add(g);
-    p9b.add(h);
-    p9b.add(i);
-    p9b.add(j);    
-    p9c.setLayout(new GridLayout(1,5,10,10));
-    p9c.add(k);
-    p9c.add(l);
-    p9c.add(m);
-    p9c.add(n);
-    p9c.add(o);
-    
-    p9d.setLayout(new GridLayout(2,5,1,3));
-    p9d.add(p9b);
-    p9d.add(p9c);
+	    p9f.setLayout(new GridLayout(1,1,1,0));
+	    p9f.add(reset);
+	    
+	    p9g.setLayout(new GridLayout(1,2,3,0));
+	    p9g.add(p9e);
+	    p9g.add(p9f);
+	    
+	    p9.setBackground(Color.red);
+	    p9.setBorder(new TitledBorder("For Employee use ONLY"));    
+	    p9.setLayout(new GridLayout(4,1,10,3));
+	   
+	    p9.add(text);
+	    p9.add(pwdEmp);
+	    p9.add(p9keyboard);
+	    p9.add(p9g);
 
-    p9e.setLayout(new GridLayout(1,1,1,0));
-    p9e.add(enter);
-
-    p9f.setLayout(new GridLayout(1,1,1,0));
-    p9f.add(reset);
-    
-    p9g.setLayout(new GridLayout(1,2,3,0));
-    p9g.add(p9e);
-    p9g.add(p9f);
-    
-    p9.setBackground(Color.red);
-    p9.setBorder(new TitledBorder("For Employee use ONLY"));    
-    p9.setLayout(new GridLayout(4,1,10,3));
-   
-    p9.add(text);
-    p9.add(p9a);
-    p9.add(p9d);
-    p9.add(p9g);
-	 
 		//all panels
 		p.add(p1);
 		p.add(p2);
@@ -258,11 +276,14 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		String genre = (String)c.getSelectedItem();
-		
 		ChannelList cl = new ChannelList();
 	    cl.createList();
 	    
+	    int idx = lselections.getSelectedIndex();
+	    
+	  //determine JList by JCombobox selecton
+	  	String genre = (String)c.getSelectedItem();
+	  	
 		switch(genre){
 		case "Please Select Genre of Channel":
 			vt1.clear();
@@ -328,6 +349,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 			break;
 		}
 		
+		//subscribe
 		if(e.getSource() == subsrcibe){
 			chTitle = String.valueOf(lchannels.getSelectedValue());
 			result = chTitle + "-" + price;
@@ -343,9 +365,18 @@ implements ItemListener, ActionListener, ListSelectionListener{
 			}
 		}
 		
+		//Actions on selected channels
 		if(e.getSource() == clr){
-			vt2.remove(lselections.getSelectedIndex());
-			lselections.setListData(vt2);
+			if(idx == -1){
+				JOptionPane.showMessageDialog(this, 
+						"Please select channel from 'Your Selections' to remove", 
+						"Not Allowed", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else{
+				vt2.remove(lselections.getSelectedIndex());
+				lselections.setListData(vt2);
+			}
 		}
 		
 		if(e.getSource() == clrAll){
@@ -354,9 +385,26 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		}
 		
 		if(e.getSource() == submit){
-			String pwd = new String(jpwName.getPassword());
-			if(pwd == null){
-				JOptionPane.showConfirmDialog(this, "Are You SURE","WARNING",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+			int opt = 0;
+			
+			if(idx == -1){
+				JOptionPane.showMessageDialog(this, 
+						"No Channel selected. Please setect a Channel", 
+						"Not Allowed", 
+						JOptionPane.ERROR_MESSAGE);
+			}
+			else{
+				JOptionPane.showConfirmDialog(this, "Are You SURE","WARNING",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+				if(jpwName.getPassword().length == 0 && opt == JOptionPane.YES_OPTION){
+					JOptionPane.showMessageDialog(this, 
+							"Please Enter a VALID Credit Card", 
+							"Not Allowed", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					JOptionPane.showMessageDialog(this, "Total $" + " has been charged to your credit card, " +
+							"Thank you","Confirmation",JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		}
 	}

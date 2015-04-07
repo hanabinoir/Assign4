@@ -1,5 +1,5 @@
 import javax.swing.*;// by default allows you to everything from .swing
-import javax.swing.event.*;
+//import javax.swing.event.*;
 import java.awt.*;
 import java.text.*;
 import java.util.Vector;
@@ -9,25 +9,43 @@ import javax.swing.border.*;//allows you to create a border inside a border
 import java.util.*;
 
 
-public class UpdateFrame implements ItemListener, ActionListener
+public class UpdateFrame extends JFrame implements ItemListener, ActionListener
 {
-   
-UpdateFrame(){
-
       JPanel p,p1,p1a,p1b,p1c,p1d,p2,p3,p4;
       JComboBox c;
-      JLabel lblHD,lblStream;
+      JLabel lblHD,lblStream, jlab;
    	JRadioButton entertainment,movie,news,sci,sports;
    	ButtonGroup radGrp;
       JButton update;
    	JList channelL;
 	   JScrollPane jp; 
 	   Vector vt;        
-            
-      JFrame frame = new JFrame("Channel Update");
-      frame.setSize(1000,400);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+      
+      private JMenuBar jmb = new JMenuBar(); // create menu bar (just the empty bar only)
+      private JMenu jmList = new JMenu("Channel List");
+      private JMenuItem fullL = new JMenuItem("Full List");
+      private JMenuItem clear = new JMenuItem("Clear");
+            
+  
+      public UpdateFrame()
+      {
+         setTitle("Channel Update");
+         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         setSize(1000,400);
+
+      setJMenuBar(jmb);//Add menu bar to the frame
+      jmList.setMnemonic('S');
+      jmList.add(fullL);//insert sub options into menu list
+      fullL.setMnemonic('F');
+      fullL.addActionListener(this);
+      jmList.add(clear);
+      clear.setMnemonic('C');      
+      clear.addActionListener(this);
+      jmb.add(jmList);//insert menu list into menu bar         
+      jlab = new JLabel();//label to display menu selection
+      
   		p = new JPanel();
 		p.setLayout(new GridLayout(2,2,10,10));
       //SUB MENU - used mennmonics wk 11-1
@@ -116,11 +134,9 @@ UpdateFrame(){
       p2.add(movie);
       p2.add(news);
       p2.add(sci);
-      p2.add(sports);
-      
+      p2.add(sports);      
       p2.setBorder(new TitledBorder("Genre Current/Change"));    
       p2.setLayout(new GridLayout(2,3,10,3));
-      p2.add(p2);
 
       //Update button
 		p3 = new JPanel();
@@ -143,6 +159,7 @@ UpdateFrame(){
 	    cl.createList();
 
        p4.add(jp);
+       jp.setFont(new Font("Helvetica", Font.BOLD + Font.ITALIC, 14));
        p4.setLayout(new GridLayout(1,1,10,10));
 		 p4.setBorder(new TitledBorder("Channel List"));
 		 p4.setBackground(Color.orange);
@@ -153,32 +170,26 @@ UpdateFrame(){
 		p.add(p2);
 		p.add(p3);
 		p.add(p4);
-		
-		frame.add(p);
-      frame.setVisible(true);
-
-  }
+         
+      }
+            
+      
+      //to create File menu
+      
    
-   
-	public void itemStateChanged(ItemEvent arg0) {
+	public void itemStateChanged(ItemEvent a) {
 
 
 }
-	public void actionPerformed(ActionEvent arg0) {
-
+	public void actionPerformed(ActionEvent ae) {
 
 }
 
    public static void main(String args[])
    {
-      SwingUtilities.invokeLater(new Runnable(){
-      public void run(){
-      new UpdateFrame();
-      }
-   });
-      
-      
-   
+      UpdateFrame frame = new UpdateFrame();
+		frame.add(frame.p);
+      frame.setVisible(true);
 
 }
 
