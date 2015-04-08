@@ -12,13 +12,15 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
 {
       JPanel p,p1,p1a,p1b,p1c,p1d,p2,p3,p4;
       JComboBox c;
-      JLabel lblHD,lblStream, jlab;
+      JLabel jlab;
+      JTextField txtHD,txtStream;
    	JRadioButton entertainment,movie,news,sci,sports;
    	ButtonGroup radGrp;
       JButton update;
    	JList channelL;
 	   JScrollPane jp; 
 	   Vector vt;
+	   JTextArea fullList;
 	   String priceHD,priceStream,chTitle,chGenre;
 
 
@@ -27,7 +29,6 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
       private JMenu jmList = new JMenu("Channel List");
       private JMenuItem fullL = new JMenuItem("Full List");
       private JMenuItem clear = new JMenuItem("Clear");
-            
   
       public UpdateFrame()
       {
@@ -49,7 +50,8 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
   		p = new JPanel();
 		p.setLayout(new GridLayout(2,2,10,10));
       //SUB MENU - used mennmonics wk 11-1
-		
+		fullL.addActionListener(this);
+		clear.addActionListener(this);
 		//channel list
 		p1 = new JPanel();
 		p1a = new JPanel();
@@ -65,24 +67,32 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
 			 c.addItem(cl.chList[i].getChTitle());
 		 }
 		 c.addActionListener(this);
-	    p1a.add(c);	    
-	    p1a.setLayout(new GridLayout(1,1,5,5));
+		 p1a.add(c);	    
+		 p1a.setLayout(new GridLayout(1,1,5,5));
 		 p1a.setBorder(new TitledBorder("Channel"));
        
-		 lblHD = new JLabel();
-		 lblHD.setBackground(Color.cyan);
-		 lblHD.setOpaque(true);
-       p1b.add(lblHD);
-       p1b.setLayout(new GridLayout(1,1,5,5));
+		 Font fontPrice = new Font("Helvetica",Font.ITALIC + Font.BOLD,22);
+		 
+		 txtHD = new JTextField();
+		 txtHD.setBackground(Color.cyan);
+		 txtHD.setOpaque(true);
+		 txtHD.setEditable(true);
+		 txtHD.setBorder(null);
+		 txtHD.setFont(fontPrice);
+		 p1b.add(txtHD);
+       	 p1b.setLayout(new GridLayout(1,1,5,5));
 		 p1b.setBorder(new TitledBorder("Broadcast HD"));
 		 p1b.setBackground(Color.cyan);
        
    	 
-		 lblStream = new JLabel();
-		 lblStream.setBackground(Color.yellow);
-		 lblStream.setOpaque(true);  
-       p1c.add(lblStream);    
-       p1c.setLayout(new GridLayout(1,1,5,5));
+		 txtStream = new JTextField();
+		 txtStream.setBackground(Color.yellow);
+		 txtStream.setOpaque(true);  
+		 txtStream.setEditable(true);
+		 txtStream.setBorder(null);
+		 txtStream.setFont(fontPrice);
+		 p1c.add(txtStream);    
+		 p1c.setLayout(new GridLayout(1,1,5,5));
 		 p1c.setBorder(new TitledBorder("Internet Stream"));
 		 p1c.setBackground(Color.yellow);       
        
@@ -134,20 +144,25 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
 		p3.setLayout(new GridLayout(1,1,10,10));
       
      //Channel List
-      p4 = new JPanel();
- 
- 	    vt = new Vector();
+		p4 = new JPanel();/*
+		vt = new Vector();
+		channelL = new JList(vt);*/
+		fullList = new JTextArea();
+		jp = new JScrollPane(fullList);
+		
+ 	   	Font fontList = new Font("Helvetica",Font.ITALIC + Font.BOLD,14);
+ 	    
+	    fullList.setBackground(Color.orange);
+	    fullList.setEditable(false);
+	    fullList.setFont(new Font("Helvetica", Font.BOLD + Font.ITALIC, 14));
+	    jp.setBorder(null);
 	    
-	    channelL = new JList(vt);
-       channelL.setBackground(Color.orange);   
-	    jp = new JScrollPane(channelL);
 	    cl.createList();
 
-       p4.add(jp);
-       jp.setFont(new Font("Helvetica", Font.BOLD + Font.ITALIC, 14));
-       p4.setLayout(new GridLayout(1,1,10,10));
-		 p4.setBorder(new TitledBorder("Channel List"));
-		 p4.setBackground(Color.orange);
+	    p4.add(jp);
+	    p4.setLayout(new GridLayout(1,1,10,10));
+		p4.setBorder(new TitledBorder("Channel List"));
+		p4.setBackground(Color.orange);
            
      
       //all panels
@@ -172,12 +187,67 @@ public class UpdateFrame extends JFrame implements ItemListener, ActionListener
 		cl.createList();
 		for(int i =0; i < cl.chList.length; i++){
 			if(cl.chList[i].getChTitle() == chTitle){
-				priceHD = "$" + String.valueOf(cl.chList[i].getChBroadcastPrice());
-				lblHD.setText(priceHD);
-				priceStream = "$" + String.valueOf(cl.chList[i].getChStreamPrice());
-				lblStream.setText(priceStream);
+				priceHD = String.valueOf(cl.chList[i].getChBroadcastPrice());
+				txtHD.setText(priceHD);
+				priceStream = String.valueOf(cl.chList[i].getChStreamPrice());
+				txtStream.setText(priceStream);
 				chGenre = String.valueOf(cl.chList[i].getChGenre());
 			}
+		}
+		switch(chGenre){
+		case "e":
+			entertainment.isSelected();
+			break;
+		case "m":
+			movie.isSelected();
+			break;
+		case "n":
+			news.isSelected();
+			break;
+		case "s":
+			sci.isSelected();
+			break;
+		case "t":
+			sports.isSelected();
+			break;
+		}
+		
+		if(ae.getSource() == update){
+			for(int i =0; i < cl.chList.length; i++){
+				if(cl.chList[i].getChTitle() == chTitle){
+					cl.chList[i].setChBroadcastPrice(Double.valueOf(txtHD.getText()));
+					cl.chList[i].setChStreamPrice(Double.valueOf(txtStream.getText()));
+					if(entertainment.isSelected())
+						cl.chList[i].setChGenre('e');
+					if(movie.isSelected())
+						cl.chList[i].setChGenre('m');
+					if(news.isSelected())
+						cl.chList[i].setChGenre('n');
+					if(sci.isSelected())
+						cl.chList[i].setChGenre('s');
+					if(sports.isSelected())
+						cl.chList[i].setChGenre('t');
+				}
+			}
+			
+			JOptionPane.showMessageDialog(this, 
+					"Update Complete", 
+					"Confirmation", 
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		if(ae.getSource() == fullL){
+			fullList.setText("");
+			for(int i =0; i < cl.chList.length; i++){
+				fullList.append(cl.chList[i].getChTitle() + " "
+						+ String.valueOf(cl.chList[i].getChBroadcastPrice()) + " " + 
+						String.valueOf(cl.chList[i].getChStreamPrice()) + " " + 
+						cl.chList[i].getChGenre() + "\n");
+			}
+		}
+		
+		if(ae.getSource() == clear){
+			fullList.setText("");
 		}
 	}
 

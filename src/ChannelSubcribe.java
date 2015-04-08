@@ -384,8 +384,11 @@ implements ItemListener, ActionListener, ListSelectionListener{
 							JOptionPane.ERROR_MESSAGE);
 				}
 				else{
-					JOptionPane.showMessageDialog(this, "Total $" + " has been charged to your credit card, " +
-							"Thank you","Confirmation",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(this, 
+							"Total $" + " has been charged to your credit card, " +
+							"Thank you", 
+							"Confirmation", 
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		}
@@ -398,6 +401,14 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		if(e.getSource() == enter){
 			String correct = "mskjjln";//This is the password
 			if(Arrays.equals(correct.toCharArray(), pwd.getPassword())){
+				//clear
+				c.setSelectedIndex(0);
+				lblHD.setText("");
+				lblStream.setText("");
+				vt2.clear();
+				pwd.setText("");
+				
+				//display UpdateFram
 				UpdateFrame jf = new UpdateFrame();
 				jf.add(jf.p);
 				jf.setVisible(true);

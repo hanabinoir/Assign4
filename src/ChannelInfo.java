@@ -53,7 +53,18 @@ class ChannelInfo
 	{
 		return chLogo;
 	}
-
+	
+	public void setChStreamPrice(double a){
+		chStreamPrice = a;
+	}
+	
+	public void setChBroadcastPrice(double a){
+		chBroadcastPrice = a;
+	}
+	
+	public void setChGenre(char a){
+		chGenre = a;
+	}
 	
 	/*public void setEmpSal(double s)
 	{
