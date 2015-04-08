@@ -21,7 +21,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	JList lchannels,lselections;
 	JScrollPane jp1,jp2;
 	Vector vt1,vt2;
-	String chTitle,priceHD,priceStream,price,result;
+	String chTitle,priceHD,priceStream,price,result,password;
 	Image Logo;
 	ImageIcon chLogo;
 	JRadioButton radHD,radStream;
@@ -177,8 +177,8 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    pwd.setEditable(true);
 	    
 	    String keys[] = {
-	    		"f","g","h","i","j",
-	    		"k","l","m","n","o"
+	    		"f","g","h","i","y",
+	    		"k","r","m","n","s"
 	    };
 	    
 	    for(int i = 0; i < 10;i++){
@@ -187,9 +187,8 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    		p9b.add(key);
 	    	else
 	    		p9c.add(key);
-	    	
+	    	key.addActionListener(this);
 	    }
-	    key.addActionListener(this);
 	    
 		enter = new JButton("Enter");
 		enter.addActionListener(this);
@@ -389,12 +388,17 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		}
 		
 		//pwd input
+		/*
+		password += e.getActionCommand();
+		pwd.setText(password.substring(4));*/
 		if(e.getSource() == key){
-			pwd.setText(getName());
+			password += e.getActionCommand();
+			pwd.setText(password.substring(4));
 		}
 		//pwd options
 		if(e.getSource() == enter){
-			String correct = "mskjjln";//This is the password
+			String correct = "mskyyrn";//This is the password
+			System.out.print(pwd.getPassword());
 			if(Arrays.equals(correct.toCharArray(), pwd.getPassword())){
 				//clear
 				c.setSelectedIndex(0);
@@ -413,10 +417,13 @@ implements ItemListener, ActionListener, ListSelectionListener{
 						"WRONG Password, please re-enter", 
 						"Not Allowed", 
 						JOptionPane.ERROR_MESSAGE);
+				password = "";
+				pwd.setText("");
 			}
 		}
 		
 		if(e.getSource() == reset){
+			password = "";
 			pwd.setText("");
 		}
 	}
