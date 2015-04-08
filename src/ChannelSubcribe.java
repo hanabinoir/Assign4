@@ -65,6 +65,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    
 	    lchannels = new JList(vt1);   
 	    lchannels.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	    lchannels.setFocusable(true);
 	    jp1 = new JScrollPane(lchannels);
 
 	    lchannels.addListSelectionListener(this);
@@ -330,6 +331,13 @@ implements ItemListener, ActionListener, ListSelectionListener{
 			}
 			break;
 		}
+		//price
+		if(radHD.isSelected()){
+			price = lblHD.getText();
+		}
+		if(radStream.isSelected()){
+			price = lblStream.getText();
+		}
 		
 		//subscribe
 		if(e.getSource() == subsrcibe){
@@ -429,9 +437,11 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
-		ChannelList cl = new ChannelList();
-	    cl.createList();
 	    chTitle = String.valueOf(lchannels.getSelectedValue());
+	    
+	    ChannelList cl = new ChannelList();
+	    cl.createList();
+	    
 		for(int i =0; i < cl.chList.length; i++){
 			if(cl.chList[i].getChTitle() == chTitle){
 				priceHD = "$" + String.valueOf(cl.chList[i].getChBroadcastPrice());
@@ -443,6 +453,5 @@ implements ItemListener, ActionListener, ListSelectionListener{
 				lblLogo.setIcon(chLogo);
 			}
 		}
-		
 	}
 }
