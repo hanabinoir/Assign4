@@ -62,12 +62,10 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		
 	    p2 = new JPanel();
 	    vt1 = new Vector();
-	    
-	    lchannels = new JList(vt1);   
-	    lchannels.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	    lchannels.setFocusable(true);
+	    lchannels = new JList(vt1);
 	    jp1 = new JScrollPane(lchannels);
-
+	    
+	    lchannels.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	    lchannels.addListSelectionListener(this);
 		p2.add(jp1);
 		p2.setBorder(new TitledBorder("Channel Titles Available"));  
@@ -124,11 +122,10 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		//selections
 		p7 = new JPanel();
 		vt2 = new Vector();
-		
-		lselections = new JList(vt2);   
-	    lselections.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		lselections = new JList(vt2);
 		jp2 = new JScrollPane(lselections);
 		
+	    lselections.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	    lselections.addListSelectionListener(this);
 		p7.add(jp2);
 		p7.setBackground(Color.white);
@@ -243,17 +240,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
-		ChannelList cl = new ChannelList();
-	    cl.createList();
 		
-		if(e.getSource() instanceof JRadioButton){
-			if(e.getSource() == radHD){
-				price = priceHD;
-			}
-			else{
-				price = priceStream;
-			}
-		}
 	}
 
 	@Override
