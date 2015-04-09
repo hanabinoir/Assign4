@@ -1,14 +1,13 @@
 import javax.swing.*;// by default allows you to everything from .swing
-
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.text.*;
 import java.util.*;
 import java.awt.event.*;
+
 import javax.swing.border.*;//allows you to create a border inside a border
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import java.util.*;
 
 
@@ -190,7 +189,16 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    		p9b.add(key);
 	    	else
 	    		p9c.add(key);
-	    	key.addActionListener(this);
+	    	key.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent k) {
+					// TODO Auto-generated method stub
+					String letter = k.getActionCommand();
+					password += letter;
+					pwd.setText(password);
+				}
+			});
 	    }
 	    
 		enter = new JButton("Enter");
@@ -335,6 +343,11 @@ implements ItemListener, ActionListener, ListSelectionListener{
 						JOptionPane.ERROR_MESSAGE);
 			}
 			else{
+				double reducePrice;
+				String selectedItem;
+				selectedItem = String.valueOf(lselections.getSelectedValue());
+				reducePrice = Double.valueOf(selectedItem.substring(selectedItem.lastIndexOf("$") + 1));
+				total.setText("Total: $" + String.valueOf(totalPrice -= reducePrice));
 				vt2.remove(lselections.getSelectedIndex());
 				lselections.setListData(vt2);
 			}
@@ -378,25 +391,16 @@ implements ItemListener, ActionListener, ListSelectionListener{
 				}
 			}
 		}
-		
-		//pwd input
-		
-		password += e.getActionCommand();
-		pwd.setText(password.substring(4));/*
-		if(e.getSource() == key){
-			password += e.getActionCommand();
-			pwd.setText(password.substring(4));
-		}*/
 		//pwd options
 		if(e.getSource() == enter){
 			String correct = "mskyyrn";//This is the password
-			System.out.print(pwd.getPassword());
 			if(Arrays.equals(correct.toCharArray(), pwd.getPassword())){
 				//clear
 				c.setSelectedIndex(0);
 				lblHD.setText("");
 				lblStream.setText("");
 				vt2.clear();
+				password = "";
 				pwd.setText("");
 				
 				//display UpdateFram
