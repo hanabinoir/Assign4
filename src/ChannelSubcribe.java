@@ -21,7 +21,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	JList lchannels,lselections;
 	JScrollPane jp1,jp2;
 	Vector vt1,vt2;
-	String chTitle,priceHD,priceStream,price,result,password;
+	String chTitle,priceHD,priceStream,price,result,password,genre;
 	double totalPrice;
 	int opt = 0;
 	Image Logo;
@@ -254,72 +254,53 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    int idx = lselections.getSelectedIndex();
 	    
 	  //determine JList by JCombobox selecton
-	  	String genre = (String)c.getSelectedItem();
+	  	genre = c.getSelectedItem().toString();
 	  	
-		switch(genre){
-		case "Please Select Genre of Channel":
-			vt1.clear();
-			lchannels.setListData(vt1);
-			break;
-		case "All Genres":
-			vt1.clear();
+	  	if(e.getSource() == c){
+	  		vt1.clear();
 			for(int i =0; i < cl.chList.length; i++){
 				char chGenre = cl.chList[i].getChGenre();
-				vt1.add(cl.chList[i].getChTitle());
-				lchannels.setListData(vt1);
-			}
-			break;
-		case "Entertainment":
-			vt1.clear();
-			for(int i =0; i < cl.chList.length; i++){
-				char chGenre = cl.chList[i].getChGenre();
-				if(chGenre == 'e'){
+				switch(genre){
+				case "Please Select Genre of Channel":
+					lchannels.setListData(vt1);
+					break;
+				case "All Genres":
 					vt1.add(cl.chList[i].getChTitle());
 					lchannels.setListData(vt1);
+					break;
+				case "Entertainment":
+					if(chGenre == 'e'){
+						vt1.add(cl.chList[i].getChTitle());
+						lchannels.setListData(vt1);
+					}
+					break;
+				case "Movie":
+					if(chGenre == 'm'){
+						vt1.add(cl.chList[i].getChTitle());
+						lchannels.setListData(vt1);
+					}
+					break;
+				case "News/Business":
+					if(chGenre == 'n'){
+						vt1.add(cl.chList[i].getChTitle());
+						lchannels.setListData(vt1);
+					}
+					break;
+				case "Sci-Fi":
+					if(chGenre == 's'){
+						vt1.add(cl.chList[i].getChTitle());
+						lchannels.setListData(vt1);
+					}
+					break;
+				case "Sports":
+					if(chGenre == 't'){
+						vt1.add(cl.chList[i].getChTitle());
+						lchannels.setListData(vt1);
+					}
+					break;
 				}
 			}
-			break;
-		case "Movie":
-			vt1.clear();
-			for(int i =0; i < cl.chList.length; i++){
-				char chGenre = cl.chList[i].getChGenre();
-				if(chGenre == 'm'){
-					vt1.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt1);
-				}
-			}
-			break;
-		case "News/Business":
-			vt1.clear();
-			for(int i =0; i < cl.chList.length; i++){
-				char chGenre = cl.chList[i].getChGenre();
-				if(chGenre == 'n'){
-					vt1.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt1);
-				}
-			}
-			break;
-		case "Sci-Fi":
-			vt1.clear();
-			for(int i =0; i < cl.chList.length; i++){
-				char chGenre = cl.chList[i].getChGenre();
-				if(chGenre == 's'){
-					vt1.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt1);
-				}
-			}
-			break;
-		case "Sports":
-			vt1.clear();
-			for(int i =0; i < cl.chList.length; i++){
-				char chGenre = cl.chList[i].getChGenre();
-				if(chGenre == 't'){
-					vt1.add(cl.chList[i].getChTitle());
-					lchannels.setListData(vt1);
-				}
-			}
-			break;
-		}
+	  	}
 		//price
 		if(radHD.isSelected()){
 			price = lblHD.getText();
@@ -331,7 +312,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		//subscribe
 		if(e.getSource() == subsrcibe){
 			totalPrice += Double.valueOf(price.substring(1));
-			result = chTitle + "-" + price;
+			result = chTitle + " - " + price;
 			if(vt2.contains(result)){
 				JOptionPane.showMessageDialog(this, 
 						"This Channel is Already selected for that Format - Please select Another", 
