@@ -368,7 +368,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		}
 		
 		if(e.getSource() == submit){
-			if(idx == -1 && card.getPassword().length > 0){
+			if(totalPrice == 0 && card.getPassword().length > 0){
 				JOptionPane.showMessageDialog(this, 
 						"No Channel selected. Please setect a Channel", 
 						"Not Allowed", 
@@ -384,7 +384,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 				}
 				else{
 					JOptionPane.showMessageDialog(this, 
-							"Total $" + totalPrice + " has been charged to your credit card, " +
+							"Total $" + df.format(totalPrice) + " has been charged to your credit card, " +
 							"Thank you", 
 							"Confirmation", 
 							JOptionPane.INFORMATION_MESSAGE);
