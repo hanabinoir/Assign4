@@ -22,6 +22,8 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	JScrollPane jp1,jp2;
 	Vector vt1,vt2;
 	String chTitle,priceHD,priceStream,price,result,password;
+	double totalPrice;
+	int opt = 0;
 	Image Logo;
 	ImageIcon chLogo;
 	JRadioButton radHD,radStream;
@@ -147,6 +149,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    total.setBackground(color);
 	    total.addActionListener(this);
 	    total.setEditable(false);
+	    total.setText("Total: ");
 	    JLabel jlbPassword = new JLabel("Enter Credit Card#: ");
 		card = new JPasswordField(15);
 
@@ -327,7 +330,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		
 		//subscribe
 		if(e.getSource() == subsrcibe){
-			chTitle = String.valueOf(lchannels.getSelectedValue());
+			totalPrice += Double.valueOf(price.substring(1));
 			result = chTitle + "-" + price;
 			if(vt2.contains(result)){
 				JOptionPane.showMessageDialog(this, 
@@ -338,6 +341,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 			else{
 				vt2.add(result);
 				lselections.setListData(vt2);
+				total.setText("Total: $" + String.valueOf(totalPrice));
 			}
 		}
 		
@@ -356,14 +360,21 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		}
 		
 		if(e.getSource() == clrAll){
-			vt2.clear();
-			lselections.setListData(vt2);
+			JOptionPane.showConfirmDialog(this, 
+					"WARNING", 
+					"Are You SURE ?", 
+					JOptionPane.YES_NO_OPTION, 
+					JOptionPane.WARNING_MESSAGE);
+			if(opt == JOptionPane.YES_OPTION){
+				vt2.clear();
+				lselections.setListData(vt2);
+				totalPrice = 0;
+				total.setText("Total: ");
+			}
 		}
 		
 		if(e.getSource() == submit){
-			int opt = 0;
-			
-			if(idx == -1){
+			if(idx == -1 && card.getPassword().length > 0){
 				JOptionPane.showMessageDialog(this, 
 						"No Channel selected. Please setect a Channel", 
 						"Not Allowed", 
@@ -388,13 +399,13 @@ implements ItemListener, ActionListener, ListSelectionListener{
 		}
 		
 		//pwd input
-		/*
+		
 		password += e.getActionCommand();
-		pwd.setText(password.substring(4));*/
+		pwd.setText(password.substring(4));/*
 		if(e.getSource() == key){
 			password += e.getActionCommand();
 			pwd.setText(password.substring(4));
-		}
+		}*/
 		//pwd options
 		if(e.getSource() == enter){
 			String correct = "mskyyrn";//This is the password
