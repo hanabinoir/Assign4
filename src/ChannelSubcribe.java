@@ -1,4 +1,5 @@
 import javax.swing.*;// by default allows you to everything from .swing
+
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.text.*;
@@ -20,8 +21,9 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	JList lchannels,lselections;
 	JScrollPane jp1,jp2;
 	Vector vt1,vt2;
-	String chTitle,priceHD,priceStream,price,result,password,genre;
-	double totalPrice;
+	String chTitle,priceHD,priceStream,price,result,genre;
+	String password = "";
+	double totalPrice,reducePrice;
 	int opt = 0;
 	Image Logo;
 	ImageIcon chLogo;
@@ -35,7 +37,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	
 	JTextField total;
 	Container con;
-	
+	DecimalFormat df = new DecimalFormat("$###.##");
 	public void init(){
 		p = new JPanel();
 		chTitle = new String();
@@ -176,7 +178,6 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	   JLabel text = new JLabel("Use Keypad to enter password for settings");
 	    
 	    pwd = new JPasswordField();
-	    pwd.setEditable(true);
 	    
 	    String keys[] = {
 	    		"f","g","h","i","y",
@@ -330,7 +331,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 			else{
 				vt2.add(result);
 				lselections.setListData(vt2);
-				total.setText("Total: $" + String.valueOf(totalPrice));
+				total.setText("Total: " + df.format(totalPrice));
 			}
 		}
 		
@@ -343,11 +344,10 @@ implements ItemListener, ActionListener, ListSelectionListener{
 						JOptionPane.ERROR_MESSAGE);
 			}
 			else{
-				double reducePrice;
-				String selectedItem;
-				selectedItem = String.valueOf(lselections.getSelectedValue());
-				reducePrice = Double.valueOf(selectedItem.substring(selectedItem.lastIndexOf("$") + 1));
-				total.setText("Total: $" + String.valueOf(totalPrice -= reducePrice));
+				String selectedPrice = String.valueOf(lselections.getSelectedValue());
+				reducePrice = Double.valueOf(selectedPrice.substring(selectedPrice.lastIndexOf("$") + 1));
+				totalPrice -= reducePrice;
+				total.setText("Total: " + df.format(totalPrice));
 				vt2.remove(lselections.getSelectedIndex());
 				lselections.setListData(vt2);
 			}
@@ -384,7 +384,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 				}
 				else{
 					JOptionPane.showMessageDialog(this, 
-							"Total $" + " has been charged to your credit card, " +
+							"Total $" + totalPrice + " has been charged to your credit card, " +
 							"Thank you", 
 							"Confirmation", 
 							JOptionPane.INFORMATION_MESSAGE);
@@ -400,6 +400,9 @@ implements ItemListener, ActionListener, ListSelectionListener{
 				lblHD.setText("");
 				lblStream.setText("");
 				vt2.clear();
+				lselections.setListData(vt2);
+				total.setText("");
+				card.setText("");
 				password = "";
 				pwd.setText("");
 				
@@ -407,6 +410,7 @@ implements ItemListener, ActionListener, ListSelectionListener{
 				UpdateFrame jf = new UpdateFrame();
 				jf.add(jf.p);
 				jf.setVisible(true);
+				jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			}
 			else{
 				JOptionPane.showMessageDialog(this, 
@@ -434,9 +438,9 @@ implements ItemListener, ActionListener, ListSelectionListener{
 	    
 		for(int i =0; i < cl.chList.length; i++){
 			if(cl.chList[i].getChTitle() == chTitle){
-				priceHD = "$" + String.valueOf(cl.chList[i].getChBroadcastPrice());
+				priceHD = df.format(cl.chList[i].getChBroadcastPrice());
 				lblHD.setText(priceHD);
-				priceStream = "$" + String.valueOf(cl.chList[i].getChStreamPrice());
+				priceStream = df.format(cl.chList[i].getChStreamPrice());
 				lblStream.setText(priceStream);
 				Logo = getImage(getCodeBase(),cl.chList[i].getChLogo());
 				chLogo = new ImageIcon(Logo);
